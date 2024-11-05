@@ -26,7 +26,7 @@ namespace AngleSharpExample
             _strategy.AddDefaultOptions();
             _strategy.AddFilter((in AttributeComparisonSource source, FilterDecision currentDecision) =>
             {
-                return new[] { "data-blockid", "type" }.Contains(source.Attribute.Name, StringComparer.OrdinalIgnoreCase)
+                return new[] { "data-blockid", "type", "data-block-id", "data-display" }.Contains(source.Attribute.Name, StringComparer.OrdinalIgnoreCase)
                     ? FilterDecision.Exclude
                     : currentDecision;
                 //return source.Attribute.Name.Equals("data-blockid", StringComparison.OrdinalIgnoreCase)
