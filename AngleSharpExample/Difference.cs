@@ -1,15 +1,11 @@
 ﻿
+using AngleSharp;
+using AngleSharp.Diffing;
 using AngleSharp.Diffing.Core;
 using AngleSharp.Diffing.Strategies;
-using AngleSharp.Diffing;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using AngleSharp;
 
 namespace AngleSharpExample
 {
@@ -30,9 +26,12 @@ namespace AngleSharpExample
             _strategy.AddDefaultOptions();
             _strategy.AddFilter((in AttributeComparisonSource source, FilterDecision currentDecision) =>
             {
-                return source.Attribute.Name.Equals("data-blockid", StringComparison.OrdinalIgnoreCase)
+                return new[] { "data-blockid", "type" }.Contains(source.Attribute.Name, StringComparer.OrdinalIgnoreCase)
                     ? FilterDecision.Exclude
                     : currentDecision;
+                //return source.Attribute.Name.Equals("data-blockid", StringComparison.OrdinalIgnoreCase)
+                //    ? FilterDecision.Exclude
+                //    : currentDecision;
             });
         }
 
@@ -94,7 +93,12 @@ namespace AngleSharpExample
 
                 case DiffResult.Missing:
                     var missingDiff = (MissingAttrDiff)diff;
-                    ReplaceWithModElement(output, missingDiff.Control.ElementSource.Node);
+                    //Here we will get the control element but we need to replace the test element so quering it with the output document to add the mod element
+                    var missingAttributeElement = output.QuerySelector(missingDiff.Control.ElementSource.Node.GetCssSelectorPath());
+                    if (missingAttributeElement != null)
+                    {
+                        ReplaceWithModElement(output, missingAttributeElement);
+                    }
                     break;
 
                 case DiffResult.Unexpected:
