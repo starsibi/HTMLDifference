@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/AngleSharpExample/bin/Debug/net8.0
+/AngleSharpExample/obj
+/TestProject1/bin/Debug/net8.0
+/TestProject1/obj
+/.vs
