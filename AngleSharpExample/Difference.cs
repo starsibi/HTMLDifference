@@ -273,7 +273,7 @@ namespace AngleSharpExample
             var selector = element.TagName.ToLower();
             var index = GetElementIndex(element);
 
-            return index > 0 ? $"{selector}:nth-of-type({index})" : selector;
+            return index > 0 ? $"*:nth-child({index}):where({selector}, del {selector}, ins {selector}, mod {selector})" : selector;
         }
 
         private static int GetElementIndex(IElement element)
