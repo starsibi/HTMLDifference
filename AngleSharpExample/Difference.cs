@@ -22,16 +22,13 @@ namespace AngleSharpExample
         }
 
         private void InitializeStrategy()
-        {
+        {            
             _strategy.AddDefaultOptions();
             _strategy.AddFilter((in AttributeComparisonSource source, FilterDecision currentDecision) =>
             {
                 return new[] { "data-blockid", "type", "data-block-id", "data-display" }.Contains(source.Attribute.Name, StringComparer.OrdinalIgnoreCase)
                     ? FilterDecision.Exclude
-                    : currentDecision;
-                //return source.Attribute.Name.Equals("data-blockid", StringComparison.OrdinalIgnoreCase)
-                //    ? FilterDecision.Exclude
-                //    : currentDecision;
+                    : currentDecision;               
             });
         }
 
@@ -273,7 +270,19 @@ namespace AngleSharpExample
             var selector = element.TagName.ToLower();
             var index = GetElementIndex(element);
 
-            return index > 0 ? $"*:nth-child({index}):where({selector}, del {selector}, ins {selector}, mod {selector})" : selector;
+            // For elements that need position-based selection
+            if (index > 0)
+            {
+                // Using body > for direct children of body to ensure correct targeting
+                var isDirectChildOfBody = element.ParentElement?.TagName.ToLower() == "body";
+                var prefix = isDirectChildOfBody ? "body > " : "";
+
+                // Combine the position-based selector with tag matching
+                return $"{prefix}*:nth-child({index}):where({selector}, del {selector}, ins {selector}, mod {selector})";
+            }
+
+            // For elements without specific position requirements
+            return selector;
         }
 
         private static int GetElementIndex(IElement element)
