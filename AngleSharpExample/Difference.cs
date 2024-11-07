@@ -234,12 +234,17 @@ namespace AngleSharpExample
                 if (current.NodeType == NodeType.Element)
                 {
                     var element = current as IElement;
-                    var selector = BuildElementSelector(element);
+                    if (element != null )
+                    {
+                        var selector = BuildElementSelector(element);
 
-                    if (path.Length > 0)
-                        path.Insert(0, " > ");
+                        if (path.Length > 0)
+                        {
+                            path.Insert(0, " > ");
+                        }
 
-                    path.Insert(0, selector);
+                        path.Insert(0, selector);
+                    }
                 }
                 else if (current.NodeType == NodeType.Text)
                 {
@@ -250,7 +255,9 @@ namespace AngleSharpExample
                         var selector = BuildElementSelector(parentElement);
 
                         if (path.Length > 0)
+                        {
                             path.Insert(0, " > ");
+                        }
 
                         path.Insert(0, selector);
                     }
@@ -273,12 +280,9 @@ namespace AngleSharpExample
             // For elements that need position-based selection
             if (index > 0)
             {
-                // Using body > for direct children of body to ensure correct targeting
-                var isDirectChildOfBody = element.ParentElement?.TagName.ToLower() == "body";
-                var prefix = isDirectChildOfBody ? "body > " : "";
-
-                // Combine the position-based selector with tag matching
-                return $"{prefix}*:nth-child({index}):where({selector}, del {selector}, ins {selector}, mod {selector})";
+ 
+              // Combine the position-based selector with tag matching
+                return $"*:nth-child({index}):where({selector}, del {selector}, ins {selector}, mod {selector})";
             }
 
             // For elements without specific position requirements
