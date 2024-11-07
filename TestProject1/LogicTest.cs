@@ -213,5 +213,523 @@ namespace TestProject1
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Added_Attribute()
+        {
+            var oldHTML = "<div>Welcome</div>";
+            var newHTML = "<div class=\"new\">Welcome</div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div class=\"new\">Welcome</div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Removed_Attribute()
+        {
+            var oldHTML = "<div class=\"old\">Welcome</div>";
+            var newHTML = "<div>Welcome</div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div>Welcome</div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Changed_Style()
+        {
+            var oldHTML = "<div style=\"color: red;\">Welcome</div>";
+            var newHTML = "<div style=\"color: blue;\">Welcome</div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div style=\"color: blue;\">Welcome</div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Added_Child_Element()
+        {
+            var oldHTML = "<div>Welcome</div>";
+            var newHTML = "<div>Welcome<p>New child</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div>Welcome<ins><p>New child</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Removed_Child_Element()
+        {
+            var oldHTML = "<div>Welcome<p>Old child</p></div>";
+            var newHTML = "<div>Welcome</div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div>Welcome<del><p>Old child</p></del></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }  
+    [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Added_Attribute()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div class=\"new\"><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div class=\"new\"><p>Paragraph 1</p><p>Paragraph 2</p></div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Removed_Attribute()
+        {
+            var oldHTML = "<div class=\"old\"><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div><p>Paragraph 1</p><p>Paragraph 2</p></div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Changed_Style()
+        {
+            var oldHTML = "<div style=\"color: red;\"><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div style=\"color: blue;\"><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<mod><div style=\"color: blue;\"><p>Paragraph 1</p><p>Paragraph 2</p></div></mod>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Added_Child_Element()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Removed_Child_Element()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><del><p>Paragraph 3</p></del></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_1()
+        {
+            var oldHTML = "<div><p>Old paragraph</p><span>Old span</span></div>";
+            var newHTML = "<div><p>New paragraph</p><span>New span</span></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p><del>Old paragraph</del><ins>New paragraph</ins></p><span><del>Old span</del><ins>New span</ins></span></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_2()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_3()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><del><p>Paragraph 2</p></del></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_4()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_5()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_6()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_7()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_8()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_9()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_10()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_11()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_12()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_13()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_14()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_15()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_16()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_17()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_18()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_19()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Updated Paragraph 2</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p><del>Paragraph 2</del><ins>Updated Paragraph 2</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_Div_And_Find_Difference_As_Complex_Scenario_20()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><ins><p>Paragraph 3</p></ins><ins><p>Paragraph 4</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_1()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Updated Paragraph 10</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p><del>Paragraph 10</del><ins>Updated Paragraph 10</ins></p></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_2()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_3()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p><p>Paragraph 12</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins><ins><p>Paragraph 12</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_4()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Updated Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Updated Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_5()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_6()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p><p>Paragraph 12</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins><ins><p>Paragraph 12</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_7()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Updated Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Updated Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_8()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_9()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Paragraph 11</p><p>Paragraph 12</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Paragraph 11</p></ins><ins><p>Paragraph 12</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void Compare_LargeHtml_And_Find_Difference_As_Complex_Scenario_10()
+        {
+            var oldHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p></div>";
+            var newHTML = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><p>Updated Paragraph 11</p></div>";
+
+            var Difference = new Difference();
+            var result = Difference.GetHtmlDifference(oldHTML, newHTML);
+            var expectedResult = "<div><p>Paragraph 1</p><p>Paragraph 2</p><p>Paragraph 3</p><p>Paragraph 4</p><p>Paragraph 5</p><p>Paragraph 6</p><p>Paragraph 7</p><p>Paragraph 8</p><p>Paragraph 9</p><p>Paragraph 10</p><ins><p>Updated Paragraph 11</p></ins></div>";
+
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+           
+        
     }
 }
